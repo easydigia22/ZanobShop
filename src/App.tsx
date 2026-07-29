@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { PublicStorefront } from './components/PublicStorefront';
+import { AdminLogin, isAdminAuthenticated } from './components/AdminLogin';
 import { AdminSidebar } from './components/AdminSidebar';
 import { DashboardView } from './components/DashboardView';
 import { ProductsView } from './components/ProductsView';
@@ -13,8 +14,11 @@ import { SettingsView } from './components/SettingsView';
 import { Product } from './types';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'public' | 'admin'>('admin');
+  const [currentView, setCurrentView] = useState<'public' | 'admin'>('public');
   const [adminTab, setAdminTab] = useState<string>('dashboard');
+  const [adminAuthenticated, setAdminAuthenticated] = useState<boolean>(
+    isAdminAuthenticated()
+  );
 
   // Modal triggers
   const [isOpenNewProductModal, setIsOpenNewProductModal] = useState<boolean>(false);
@@ -52,6 +56,8 @@ export default function App() {
       {/* Main Content Area */}
       {currentView === 'public' ? (
         <PublicStorefront />
+      ) : !adminAuthenticated ? (
+        <AdminLogin onSuccess={() => setAdminAuthenticated(true)} />
       ) : (
         <div className="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto">
           {/* Admin Navigation Sidebar */}
