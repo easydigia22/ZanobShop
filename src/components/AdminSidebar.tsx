@@ -27,16 +27,16 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const scheduledCount = posts.filter((p) => p.status === 'SCHEDULED').length;
 
   const navItems = [
-    { id: ‘dashboard’, label: ‘Vue d’ensemble’, icon: LayoutDashboard },
+    { id: 'dashboard', label: "Vue d'ensemble", icon: LayoutDashboard },
     {
-      id: ‘orders’,
-      label: ‘Commandes’,
+      id: 'orders',
+      label: 'Commandes',
       icon: ShoppingBag,
       badge: pendingOrdersCount > 0 ? pendingOrdersCount : undefined,
-      badgeColor: ‘bg-rose-500 text-white’,
+      badgeColor: 'bg-rose-500 text-white',
     },
-    { id: ‘products’, label: ‘Produits’, icon: Package },
-    { id: 'categories', label: 'Catégories', icon: Layers },
+    { id: 'products', label: 'Produits', icon: Package },
+    { id: 'categories', label: 'Categories', icon: Layers },
     {
       id: 'inventory',
       label: 'Stock & Mouvements',
@@ -44,16 +44,16 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       badge: alertCount > 0 ? alertCount : undefined,
       badgeColor: 'bg-rose-500 text-white',
     },
-    { id: 'ai-content', label: 'Générateur IA', icon: Sparkles, isHighlight: true },
-    { id: 'social-media', label: 'Réseaux Sociaux', icon: Share2 },
+    { id: 'ai-content', label: 'Generateur IA', icon: Sparkles, isHighlight: true },
+    { id: 'social-media', label: 'Reseaux Sociaux', icon: Share2 },
     {
       id: 'calendar',
-      label: 'Calendrier Éditorial',
+      label: 'Calendrier Editorial',
       icon: Calendar,
       badge: scheduledCount > 0 ? scheduledCount : undefined,
       badgeColor: 'bg-amber-500 text-slate-950',
     },
-    { id: 'settings', label: 'Paramètres', icon: Settings },
+    { id: 'settings', label: 'Parametres', icon: Settings },
   ];
 
   return (
@@ -119,7 +119,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <span>Alertes Stock ({alertCount})</span>
           </div>
           <p className="text-[11px] text-slate-400">
-            {outOfStockProducts.length > 0 && `${outOfStockProducts.length} épuisé(s). `}
+            {outOfStockProducts.length > 0 && `${outOfStockProducts.length} epuise(s). `}
             {lowStockProducts.length > 0 && `${lowStockProducts.length} stock faible.`}
           </p>
         </div>
