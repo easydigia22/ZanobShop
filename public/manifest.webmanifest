@@ -1,0 +1,21 @@
+{
+  "name": "ZanobShop — Espace Pro",
+  "short_name": "ZanobShop",
+  "description": "Gérez votre boutique mode marocaine depuis votre téléphone.",
+  "start_url": "/?pwa=1",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "shopping"],
+  "screenshots": []
+}
