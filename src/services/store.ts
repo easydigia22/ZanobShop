@@ -7,6 +7,8 @@ import {
   StoreSettings,
   User,
   UserRole,
+  Order,
+  OrderStatus,
 } from '../types';
 import {
   INITIAL_PRODUCTS,
@@ -17,6 +19,16 @@ import {
   INITIAL_SETTINGS,
   INITIAL_USERS,
 } from '../data/initialData';
+import {
+  syncProduct, deleteProductSupabase,
+  syncCategory, deleteCategorySupabase,
+  syncMovement,
+  syncPost, deletePostSupabase,
+  syncAccount,
+  syncSettings,
+  syncUser,
+  resetSupabaseData,
+} from './supabaseSync';
 
 const STORAGE_KEYS = {
   PRODUCTS: 'smart_boutique_products_v1',
@@ -26,6 +38,7 @@ const STORAGE_KEYS = {
   ACCOUNTS: 'smart_boutique_accounts_v1',
   SETTINGS: 'smart_boutique_settings_v1',
   CURRENT_USER: 'smart_boutique_user_v1',
+  ORDERS: 'smart_boutique_orders_v1',
 };
 
 type Listener = () => void;
@@ -72,6 +85,7 @@ export function setUserRole(role: UserRole): User {
   const user = getCurrentUser();
   const updatedUser: User = { ...user, role };
   saveToStorage(STORAGE_KEYS.CURRENT_USER, updatedUser);
+  syncUser(updatedUser);
   return updatedUser;
 }
 
@@ -95,6 +109,7 @@ export function saveProduct(productData: Partial<Product> & { name: string; pric
       };
       products[index] = updated;
       saveToStorage(STORAGE_KEYS.PRODUCTS, products);
+      syncProduct(updated);
       return updated;
     }
   }
@@ -130,6 +145,7 @@ export function saveProduct(productData: Partial<Product> & { name: string; pric
 
   const updatedProducts = [newProduct, ...products];
   saveToStorage(STORAGE_KEYS.PRODUCTS, updatedProducts);
+  syncProduct(newProduct);
 
   // Auto record initial movement if stock > 0
   if (newProduct.stockQuantity > 0) {
@@ -155,6 +171,7 @@ export function deleteProduct(productId: string): boolean {
   const filtered = products.filter((p) => p.id !== productId);
   if (filtered.length !== products.length) {
     saveToStorage(STORAGE_KEYS.PRODUCTS, filtered);
+    deleteProductSupabase(productId);
     return true;
   }
   return false;
@@ -181,6 +198,7 @@ export function saveCategory(categoryData: Partial<Category> & { name: string })
       const updated: Category = { ...categories[index], ...categoryData };
       categories[index] = updated;
       saveToStorage(STORAGE_KEYS.CATEGORIES, categories);
+      syncCategory(updated);
       return updated;
     }
   }
@@ -203,6 +221,7 @@ export function saveCategory(categoryData: Partial<Category> & { name: string })
   };
 
   saveToStorage(STORAGE_KEYS.CATEGORIES, [newCategory, ...categories]);
+  syncCategory(newCategory);
   return newCategory;
 }
 
@@ -211,6 +230,7 @@ export function deleteCategory(categoryId: string): boolean {
   const filtered = categories.filter((c) => c.id !== categoryId);
   if (filtered.length !== categories.length) {
     saveToStorage(STORAGE_KEYS.CATEGORIES, filtered);
+    deleteCategorySupabase(categoryId);
     return true;
   }
   return false;
@@ -257,6 +277,7 @@ export function addInventoryMovement(
   }
 
   saveToStorage(STORAGE_KEYS.MOVEMENTS, [newMovement, ...movements]);
+  syncMovement(newMovement);
   return newMovement;
 }
 
@@ -276,6 +297,7 @@ export function saveSocialPost(postData: Partial<SocialPost> & { title: string; 
       const updated: SocialPost = { ...posts[index], ...postData };
       posts[index] = updated;
       saveToStorage(STORAGE_KEYS.POSTS, posts);
+      syncPost(updated);
       return updated;
     }
   }
@@ -299,6 +321,7 @@ export function saveSocialPost(postData: Partial<SocialPost> & { title: string; 
   };
 
   saveToStorage(STORAGE_KEYS.POSTS, [newPost, ...posts]);
+  syncPost(newPost);
   return newPost;
 }
 
@@ -307,6 +330,7 @@ export function deleteSocialPost(postId: string): boolean {
   const filtered = posts.filter((p) => p.id !== postId);
   if (filtered.length !== posts.length) {
     saveToStorage(STORAGE_KEYS.POSTS, filtered);
+    deletePostSupabase(postId);
     return true;
   }
   return false;
@@ -323,6 +347,7 @@ export function publishPostNow(postId: string): SocialPost | null {
     };
     posts[index] = updated;
     saveToStorage(STORAGE_KEYS.POSTS, posts);
+    syncPost(updated);
     return updated;
   }
   return null;
@@ -344,6 +369,7 @@ export function toggleAccountConnection(accountId: string): SocialAccount | null
     };
     accounts[index] = updated;
     saveToStorage(STORAGE_KEYS.ACCOUNTS, accounts);
+    syncAccount(updated);
     return updated;
   }
   return null;
@@ -358,7 +384,79 @@ export function updateSettings(newSettings: Partial<StoreSettings>): StoreSettin
   const current = getSettings();
   const updated = { ...current, ...newSettings };
   saveToStorage(STORAGE_KEYS.SETTINGS, updated);
+  syncSettings(updated);
   return updated;
+}
+
+// 8. ORDERS
+export function getOrders(): Order[] {
+  return loadFromStorage<Order[]>(STORAGE_KEYS.ORDERS, []);
+}
+
+export function addOrder(
+  data: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'updatedAt'>
+): Order {
+  const orders = getOrders();
+  const now = new Date().toISOString();
+  const year = new Date().getFullYear();
+  const seq = String(orders.length + 1).padStart(3, '0');
+
+  const newOrder: Order = {
+    ...data,
+    id: `order_${Date.now()}`,
+    orderNumber: `CMD-${year}-${seq}`,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  saveToStorage(STORAGE_KEYS.ORDERS, [newOrder, ...orders]);
+  return newOrder;
+}
+
+export function updateOrderStatus(
+  orderId: string,
+  status: OrderStatus
+): Order | null {
+  const orders = getOrders();
+  const index = orders.findIndex((o) => o.id === orderId);
+  if (index === -1) return null;
+
+  const prev = orders[index];
+  const now = new Date().toISOString();
+  const updated: Order = {
+    ...prev,
+    status,
+    updatedAt: now,
+    confirmedAt: status === 'CONFIRMÉE' ? now : prev.confirmedAt,
+  };
+
+  if (status === 'CONFIRMÉE' && prev.status !== 'CONFIRMÉE') {
+    const user = getCurrentUser();
+    for (const item of updated.items) {
+      addInventoryMovement({
+        productId: item.productId,
+        productName: item.productName,
+        productSku: item.productSku,
+        quantity: item.quantity,
+        type: 'SORTIE',
+        reason: `Commande ${updated.orderNumber} confirmée`,
+        userId: user.id,
+        userName: user.name,
+      });
+    }
+  }
+
+  orders[index] = updated;
+  saveToStorage(STORAGE_KEYS.ORDERS, orders);
+  return updated;
+}
+
+export function deleteOrder(orderId: string): boolean {
+  const orders = getOrders();
+  const filtered = orders.filter((o) => o.id !== orderId);
+  if (filtered.length === orders.length) return false;
+  saveToStorage(STORAGE_KEYS.ORDERS, filtered);
+  return true;
 }
 
 // CSV Export & Import Utilities
@@ -389,4 +487,6 @@ export function resetDemoData(): void {
   saveToStorage(STORAGE_KEYS.ACCOUNTS, INITIAL_SOCIAL_ACCOUNTS);
   saveToStorage(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
   saveToStorage(STORAGE_KEYS.CURRENT_USER, INITIAL_USERS[0]);
+  saveToStorage(STORAGE_KEYS.ORDERS, []);
+  resetSupabaseData();
 }
