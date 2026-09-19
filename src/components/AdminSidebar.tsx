@@ -9,6 +9,7 @@ import {
   Calendar,
   Settings,
   AlertTriangle,
+  ShoppingBag,
 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 
@@ -21,13 +22,20 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   activeTab,
   onSelectTab,
 }) => {
-  const { lowStockProducts, outOfStockProducts, posts } = useStore();
+  const { lowStockProducts, outOfStockProducts, posts, pendingOrdersCount } = useStore();
   const alertCount = lowStockProducts.length + outOfStockProducts.length;
   const scheduledCount = posts.filter((p) => p.status === 'SCHEDULED').length;
 
   const navItems = [
-    { id: 'dashboard', label: 'Vue d’ensemble', icon: LayoutDashboard },
-    { id: 'products', label: 'Produits', icon: Package },
+    { id: ‘dashboard’, label: ‘Vue d’ensemble’, icon: LayoutDashboard },
+    {
+      id: ‘orders’,
+      label: ‘Commandes’,
+      icon: ShoppingBag,
+      badge: pendingOrdersCount > 0 ? pendingOrdersCount : undefined,
+      badgeColor: ‘bg-rose-500 text-white’,
+    },
+    { id: ‘products’, label: ‘Produits’, icon: Package },
     { id: 'categories', label: 'Catégories', icon: Layers },
     {
       id: 'inventory',
