@@ -121,3 +121,31 @@ export interface AiGenerationResponse {
   hashtags: string[];
   variants: string[];
 }
+
+export type OrderStatus = 'EN_ATTENTE' | 'CONFIRMÉE' | 'EN_LIVRAISON' | 'LIVRÉE' | 'ANNULÉE';
+
+export interface OrderItem {
+  productId: string;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  customer: {
+    name: string;
+    phone: string;
+    city: string;
+    address: string;
+  };
+  items: OrderItem[];
+  total: number;
+  status: OrderStatus;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+  confirmedAt?: string;
+}
