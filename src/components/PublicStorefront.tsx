@@ -498,7 +498,7 @@ export const PublicStorefront: React.FC = () => {
             </p>
 
             <textarea
-              value={customWhatsappMessage || 'Bonjour Smart Boutique, je souhaite avoir des renseignements.'}
+              value={customWhatsappMessage || 'Bonjour ZANOUBSHOP, je souhaite avoir des renseignements.'}
               onChange={(e) => setCustomWhatsappMessage(e.target.value)}
               rows={4}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-emerald-500"

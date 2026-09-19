@@ -110,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Direct WhatsApp Contact button */}
             <a
               href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(
-                'Bonjour Smart Boutique !'
+                'Bonjour ZANOUBSHOP !'
               )}`}
               target="_blank"
               rel="noopener noreferrer"

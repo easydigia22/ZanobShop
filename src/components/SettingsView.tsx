@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, Save, ShieldCheck, UserCheck, MessageCircle, Mail, MapPin } from 'lucide-react';
+import { Settings as SettingsIcon, Save, ShieldCheck, UserCheck, MessageCircle, Mail, MapPin, RotateCcw } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
-import { updateSettings, setUserRole } from '../services/store';
+import { updateSettings, setUserRole, resetDemoData } from '../services/store';
 import { UserRole } from '../types';
 
 export const SettingsView: React.FC = () => {
   const { settings, user } = useStore();
   const [formData, setFormData] = useState(settings);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [resetConfirm, setResetConfirm] = useState(false);
+
+  const handleReset = () => {
+    if (!resetConfirm) {
+      setResetConfirm(true);
+      setTimeout(() => setResetConfirm(false), 4000);
+      return;
+    }
+    resetDemoData();
+    window.location.reload();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -225,6 +236,23 @@ export const SettingsView: React.FC = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Reset Data */}
+          <div className="pt-4 border-t border-slate-800">
+            <p className="text-[11px] text-slate-500 mb-2">Zone dangereuse — efface toutes les données locales et recharge les données initiales.</p>
+            <button
+              type="button"
+              onClick={handleReset}
+              className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition ${
+                resetConfirm
+                  ? 'bg-red-500/20 border-red-500 text-red-300 animate-pulse'
+                  : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-red-500 hover:text-red-400'
+              }`}
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              {resetConfirm ? '⚠️ Cliquez encore pour confirmer' : 'Réinitialiser les données de démo'}
+            </button>
           </div>
         </div>
       </div>

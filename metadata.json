@@ -1,5 +1,5 @@
 {
-  "name": "Smart Boutique Manager",
+  "name": "ZANOUBSHOP",
   "description": "Plateforme complète de gestion de boutique, inventaire, boutique en ligne et création de contenu marketing avec IA.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
