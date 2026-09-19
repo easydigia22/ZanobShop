@@ -12,8 +12,8 @@ const supabaseKey =
   import.meta.env.SUPABASE_SERVICE_ROLE_KEY ||
   '';
 
-// Si les variables ne sont pas définies, on crée un client factice qui échouera
-// silencieusement → initFromSupabase retourne null → fallback localStorage.
-export const supabase = supabaseUrl && supabaseKey
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseKey);
+
+export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseKey)
   : createClient('https://placeholder.supabase.co', 'placeholder-key');

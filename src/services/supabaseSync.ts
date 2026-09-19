@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import {
   Product, Category, InventoryMovement,
   SocialPost, SocialAccount, StoreSettings, User,
@@ -254,6 +254,8 @@ export async function initFromSupabase(): Promise<{
   settings: StoreSettings;
   user: User;
 } | null> {
+  if (!isSupabaseConfigured) return null;
+
   try {
     const { data: existingProducts, error: checkError } = await supabase
       .from('products').select('id').limit(1);
