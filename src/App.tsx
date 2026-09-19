@@ -11,6 +11,7 @@ import { AiContentGeneratorView } from './components/AiContentGeneratorView';
 import { SocialMediaView } from './components/SocialMediaView';
 import { CalendarView } from './components/CalendarView';
 import { SettingsView } from './components/SettingsView';
+import { OrdersView } from './components/OrdersView';
 import { Product } from './types';
 
 export default function App() {
@@ -65,6 +66,8 @@ export default function App() {
 
           {/* Admin Tab View Area */}
           <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+            {adminTab === 'orders' && <OrdersView />}
+
             {adminTab === 'dashboard' && (
               <DashboardView
                 onSelectTab={setAdminTab}
