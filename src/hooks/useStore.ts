@@ -8,7 +8,9 @@ import {
   getSocialAccounts,
   getSettings,
   getCurrentUser,
+  getOrders,
 } from '../services/store';
+import { Order } from '../types';
 
 export function useStore() {
   const [products, setProducts] = useState(getProducts());
@@ -18,6 +20,7 @@ export function useStore() {
   const [accounts, setAccounts] = useState(getSocialAccounts());
   const [settings, setSettings] = useState(getSettings());
   const [user, setUser] = useState(getCurrentUser());
+  const [orders, setOrders] = useState<Order[]>(getOrders());
 
   useEffect(() => {
     const unsubscribe = subscribeToStore(() => {
@@ -28,6 +31,7 @@ export function useStore() {
       setAccounts(getSocialAccounts());
       setSettings(getSettings());
       setUser(getCurrentUser());
+      setOrders(getOrders());
     });
     return unsubscribe;
   }, []);
@@ -41,6 +45,7 @@ export function useStore() {
     (sum, p) => sum + p.price * p.stockQuantity,
     0
   );
+  const pendingOrdersCount = orders.filter((o) => o.status === 'EN_ATTENTE').length;
 
   return {
     products,
@@ -53,5 +58,7 @@ export function useStore() {
     lowStockProducts,
     outOfStockProducts,
     totalInventoryValue,
+    orders,
+    pendingOrdersCount,
   };
 }
