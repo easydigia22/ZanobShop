@@ -57,12 +57,12 @@ async function startServer() {
           hashtags: fallbackHashtags,
           variants: [
             `Incontournable : ${productName} à ${promoPrice || price} MAD. Contactez-nous par WhatsApp !`,
-            `Coup de cœur Smart Boutique : ${productName}. Réservez votre pièce dès aujourd'hui.`
+            `Coup de cœur HAJARSHOP : ${productName}. Réservez votre pièce dès aujourd'hui.`
           ]
         });
       }
 
-      const prompt = `Tu es un expert marketing digital spécialiste du e-commerce de mode et prêt-à-porter de luxe pour la marque "Smart Boutique".
+      const prompt = `Tu es un expert marketing digital spécialiste du e-commerce de mode et prêt-à-porter de luxe pour la marque "HAJARSHOP".
 Génère une publication pour les réseaux sociaux (${platform || 'Tous les réseaux'}) pour le produit suivant :
 
 - Nom du produit : ${productName}

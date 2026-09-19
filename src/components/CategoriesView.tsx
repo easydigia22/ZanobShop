@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import { Layers, Plus, Edit, Trash2, X, Package } from 'lucide-react';
+import { Layers, Plus, Edit, Trash2, X, Package, ImageIcon, CheckCircle2 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 import { Category } from '../types';
 import { saveCategory, deleteCategory } from '../services/store';
+
+const SUGGESTED_IMAGES = [
+  { url: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&auto=format&fit=crop&q=80', label: 'Sacs' },
+  { url: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&auto=format&fit=crop&q=80', label: 'Couture' },
+  { url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80', label: 'Bijoux' },
+  { url: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&auto=format&fit=crop&q=80', label: 'Chaussures' },
+  { url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format&fit=crop&q=80', label: 'Mode' },
+  { url: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&auto=format&fit=crop&q=80', label: 'Vêtements' },
+  { url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80', label: 'Tenue' },
+  { url: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format&fit=crop&q=80', label: 'Robe' },
+  { url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&auto=format&fit=crop&q=80', label: 'Accessoires' },
+  { url: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&auto=format&fit=crop&q=80', label: 'Foulards' },
+  { url: 'https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600&auto=format&fit=crop&q=80', label: 'Maroquinerie' },
+  { url: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&auto=format&fit=crop&q=80', label: 'Parfums' },
+];
 
 export const CategoriesView: React.FC = () => {
   const { categories, products, user } = useStore();
@@ -127,8 +142,9 @@ export const CategoriesView: React.FC = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full shadow-2xl flex flex-col max-h-[90vh]">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4 flex-shrink-0">
               <h3 className="font-serif font-bold text-lg text-white">
                 {editingCategory ? 'Modifier la Catégorie' : 'Créer une Catégorie'}
               </h3>
@@ -137,57 +153,120 @@ export const CategoriesView: React.FC = () => {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Nom *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name || ''}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="ex: Sacs & Maroquinerie"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
+            <div className="overflow-y-auto flex-1">
+              <form onSubmit={handleSubmit} id="category-form" className="p-6 space-y-4 text-xs">
 
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">
-                  URL de l'image de couverture
-                </label>
-                <input
-                  type="text"
-                  value={formData.image || ''}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
+                {/* Nom + Description côte à côte */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-slate-300 font-semibold mb-1">Nom *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name || ''}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="ex: Parfums Femme"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-300 font-semibold mb-1">Description</label>
+                    <input
+                      type="text"
+                      value={formData.description || ''}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      placeholder="ex: Eaux de parfum orientales"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Description</label>
-                <textarea
-                  rows={3}
-                  value={formData.description || ''}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
+                {/* Galerie de suggestions — visible en premier */}
+                <div>
+                  <p className="text-slate-400 font-semibold mb-2 flex items-center gap-1.5">
+                    <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+                    Choisir une image
+                  </p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {SUGGESTED_IMAGES.map((img) => {
+                      const selected = formData.image === img.url;
+                      return (
+                        <button
+                          key={img.url}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, image: img.url })}
+                          className={`relative rounded-xl overflow-hidden aspect-square border-2 transition-all ${
+                            selected
+                              ? 'border-amber-400 ring-2 ring-amber-400/40'
+                              : 'border-slate-700 hover:border-slate-500'
+                          }`}
+                        >
+                          <img
+                            src={img.url}
+                            alt={img.label}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-slate-950/40 flex items-end justify-center pb-1">
+                            <span className="text-[9px] text-white font-semibold drop-shadow">{img.label}</span>
+                          </div>
+                          {selected && (
+                            <div className="absolute top-1 right-1 bg-amber-400 rounded-full p-0.5">
+                              <CheckCircle2 className="w-3 h-3 text-slate-950" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-              <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl font-semibold"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 bg-amber-500 text-slate-950 font-bold rounded-xl shadow"
-                >
-                  Enregistrer
-                </button>
-              </div>
-            </form>
+                {/* URL personnalisée + Aperçu */}
+                <div>
+                  <label className="block text-slate-400 font-semibold mb-1">Ou coller une URL personnalisée</label>
+                  <input
+                    type="text"
+                    value={formData.image || ''}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    placeholder="https://images.unsplash.com/..."
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500 font-mono"
+                  />
+                  {formData.image && (
+                    <div className="mt-2 rounded-xl overflow-hidden border border-slate-700 h-24 relative bg-slate-950">
+                      <img
+                        src={formData.image}
+                        alt="Aperçu"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                      <span className="absolute bottom-2 right-2 bg-slate-950/70 text-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full">
+                        Aperçu
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+              </form>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 border-t border-slate-800 flex justify-end gap-2 flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl font-semibold text-xs"
+              >
+                Annuler
+              </button>
+              <button
+                type="submit"
+                form="category-form"
+                className="px-5 py-2 bg-amber-500 text-slate-950 font-bold rounded-xl shadow text-xs"
+              >
+                Enregistrer
+              </button>
+            </div>
           </div>
         </div>
       )}
