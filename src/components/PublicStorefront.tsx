@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { OrderForm } from './OrderForm';
 import {
   Search,
   Filter,
@@ -29,6 +30,7 @@ export const PublicStorefront: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [customWhatsappMessage, setCustomWhatsappMessage] = useState<string>('');
   const [showWhatsappModal, setShowWhatsappModal] = useState<boolean>(false);
+  const [orderProduct, setOrderProduct] = useState<Product | null>(null);
 
   const activeProducts = useMemo(() => {
     return products.filter((p) => p.isActive);
@@ -370,6 +372,19 @@ export const PublicStorefront: React.FC = () => {
                       </div>
 
                       <button
+                        onClick={(e) => { e.stopPropagation(); setOrderProduct(p); }}
+                        disabled={isOutOfStock}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
+                          isOutOfStock
+                            ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                            : 'bg-amber-500 hover:bg-amber-400 text-slate-950'
+                        }`}
+                      >
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>Commander</span>
+                      </button>
+
+                      <button
                         onClick={() => handleOpenWhatsapp(p)}
                         disabled={isOutOfStock}
                         className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
@@ -570,6 +585,14 @@ export const PublicStorefront: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {orderProduct && (
+        <OrderForm
+          product={orderProduct}
+          currency={settings.currency}
+          onClose={() => setOrderProduct(null)}
+        />
+      )}
     </div>
   );
 };
