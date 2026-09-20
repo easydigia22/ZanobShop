@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { OrderForm } from './OrderForm';
+import { SocialProofToast } from './SocialProofToast';
 import {
   Search,
   Filter,
@@ -602,6 +603,9 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
           onClose={() => setOrderProduct(null)}
         />
       )}
+
+      {/* ── SOCIAL PROOF TOASTS ── */}
+      <SocialProofToast products={products} lang={lang} />
     </div>
   );
 };
