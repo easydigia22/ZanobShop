@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { PwaInstallBanner } from './components/PwaInstallBanner';
 import { PublicStorefront } from './components/PublicStorefront';
 import { AdminLogin, isAdminAuthenticated } from './components/AdminLogin';
 import { AdminSidebar } from './components/AdminSidebar';
@@ -46,6 +47,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ivory text-noir flex flex-col font-jost antialiased">
+      <PwaInstallBanner />
       {/* Shared Navbar */}
       <Navbar
         currentView={currentView}

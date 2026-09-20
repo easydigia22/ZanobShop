@@ -1,12 +1,12 @@
 {
-  "name": "ZanobShop — Espace Pro",
-  "short_name": "ZanobShop",
-  "description": "Gérez votre boutique mode marocaine depuis votre téléphone.",
+  "name": "ZANOB — Boutique Bijoux",
+  "short_name": "ZANOB",
+  "description": "Le bijou chic, moderne et accessible. Commandez depuis votre téléphone.",
   "start_url": "/?pwa=1",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#020617",
-  "theme_color": "#020617",
+  "background_color": "#F7F3EC",
+  "theme_color": "#C8A96B",
   "lang": "fr",
   "icons": [
     {
@@ -16,6 +16,5 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["business", "shopping"],
-  "screenshots": []
+  "categories": ["business", "shopping"]
 }
