@@ -1,34 +1,18 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, Save, ShieldCheck, UserCheck, MessageCircle, Mail, MapPin, RotateCcw } from 'lucide-react';
+import { Settings as SettingsIcon, Save, MessageCircle, Mail, MapPin } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
-import { updateSettings, setUserRole, resetDemoData } from '../services/store';
-import { UserRole } from '../types';
+import { updateSettings } from '../services/store';
 
 export const SettingsView: React.FC = () => {
-  const { settings, user } = useStore();
+  const { settings } = useStore();
   const [formData, setFormData] = useState(settings);
   const [savedSuccess, setSavedSuccess] = useState(false);
-  const [resetConfirm, setResetConfirm] = useState(false);
-
-  const handleReset = () => {
-    if (!resetConfirm) {
-      setResetConfirm(true);
-      setTimeout(() => setResetConfirm(false), 4000);
-      return;
-    }
-    resetDemoData();
-    window.location.reload();
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateSettings(formData);
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 3000);
-  };
-
-  const handleRoleChange = (role: UserRole) => {
-    setUserRole(role);
   };
 
   return (
@@ -180,81 +164,6 @@ export const SettingsView: React.FC = () => {
           </form>
         </div>
 
-        {/* Roles & Security Management */}
-        <div className="lg:col-span-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl space-y-5 flex flex-col justify-between">
-          <div className="space-y-4 text-xs">
-            <h3 className="font-serif font-bold text-white text-base border-b border-slate-800 pb-3 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-amber-400" />
-              <span>Gestion des Rôles & Sécurité</span>
-            </h3>
-
-            <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
-              <div className="text-slate-400">Utilisateur Actif Connecté :</div>
-              <div className="font-bold text-white text-sm">{user.name}</div>
-              <div className="text-[11px] text-slate-500">{user.email}</div>
-              <div className="pt-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold uppercase text-[10px]">
-                  Rôle actuel : {user.role}
-                </span>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <label className="block text-slate-300 font-semibold">
-                Changer le Rôle (Test d'Autorisation) :
-              </label>
-
-              <div className="space-y-2">
-                <button
-                  type="button"
-                  onClick={() => handleRoleChange('ADMIN')}
-                  className={`w-full p-3 rounded-2xl border text-left transition ${
-                    user.role === 'ADMIN'
-                      ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-bold'
-                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
-                  }`}
-                >
-                  <div className="font-bold text-xs text-white">ADMIN (Administrateur)</div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
-                    Tous les droits : CRUD complet, suppression définitive, accès aux paramètres sensibles.
-                  </p>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleRoleChange('MANAGER')}
-                  className={`w-full p-3 rounded-2xl border text-left transition ${
-                    user.role === 'MANAGER'
-                      ? 'bg-blue-500/20 border-blue-500 text-blue-300 font-bold'
-                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
-                  }`}
-                >
-                  <div className="font-bold text-xs text-white">MANAGER (Gestionnaire)</div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
-                    Gestion des stocks, entrées/sorties et création de contenu IA. Ne peut pas supprimer définitivement.
-                  </p>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Reset Data */}
-          <div className="pt-4 border-t border-slate-800">
-            <p className="text-[11px] text-slate-500 mb-2">Zone dangereuse — efface toutes les données locales et recharge les données initiales.</p>
-            <button
-              type="button"
-              onClick={handleReset}
-              className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition ${
-                resetConfirm
-                  ? 'bg-red-500/20 border-red-500 text-red-300 animate-pulse'
-                  : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-red-500 hover:text-red-400'
-              }`}
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              {resetConfirm ? '⚠️ Cliquez encore pour confirmer' : 'Réinitialiser les données de démo'}
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
