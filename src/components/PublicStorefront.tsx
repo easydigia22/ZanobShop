@@ -171,6 +171,55 @@ export const PublicStorefront: React.FC = () => {
         </div>
       </section>
 
+      {/* ── COLLECTION 9H–17H ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-ivory-dark">
+        <div className="text-center mb-12">
+          <p className="text-xs font-medium tracking-[0.3em] text-champagne uppercase mb-3">Première collection</p>
+          <h2 className="font-cormorant font-light text-noir" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1 }}>
+            La Collection 9 H–17 H
+          </h2>
+          <div className="w-12 h-px bg-champagne mx-auto mt-5" />
+        </div>
+
+        {/* 5 pièces */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-ivory-dark border border-ivory-dark mb-12">
+          {[
+            { num: '01', name: 'Le collier essentiel', type: 'Collier', path: 'M12 5 C12 5 12 1 12 1 M12 23 C12 23 12 19 12 19 M12 5 A7 7 0 1 0 12 19' },
+            { num: '02', name: 'Les créoles du quotidien', type: 'Boucles d\'oreilles', path: 'M8 12 A4 4 0 1 0 8 12.01 M16 12 A4 4 0 1 0 16 12.01' },
+            { num: '03', name: 'La bague signature', type: 'Bague', path: 'M12 12 A6 6 0 1 0 12 12.01 M12 12 A2 2 0 1 0 12 12.01' },
+            { num: '04', name: 'Le bracelet minimaliste', type: 'Bracelet', path: 'M4 12 Q12 5 20 12' },
+            { num: '05', name: 'La touche perlée', type: 'Pendentif', path: 'M12 15 A4 4 0 1 0 12 15.01 M8 12 Q12 4 16 12' },
+          ].map((item) => (
+            <div key={item.num} className="bg-ivory px-5 py-7 flex flex-col gap-4 group hover:bg-white transition cursor-default">
+              <span className="text-[10px] font-medium tracking-[0.2em] text-champagne">{item.num}</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-6 h-6 text-noir/30 group-hover:text-champagne transition">
+                <path d={item.path} />
+              </svg>
+              <div>
+                <div className="font-cormorant text-base font-medium text-noir leading-snug group-hover:text-champagne transition">{item.name}</div>
+                <div className="text-[10px] tracking-[0.15em] uppercase text-muted mt-1">{item.type}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 3 ensembles */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {[
+            { roman: 'I', name: 'L\'Ensemble Bureau', pieces: 'Collier + boucles d\'oreilles + bracelet' },
+            { roman: 'II', name: 'L\'Ensemble Après-Travail', pieces: 'Boucles d\'oreilles + bague + collier' },
+            { roman: 'III', name: 'L\'Ensemble du Quotidien', pieces: 'Trois pièces faciles à porter tous les jours.' },
+          ].map((set) => (
+            <div key={set.roman} className="border border-ivory-dark p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-champagne opacity-50" />
+              <div className="font-cormorant font-light text-4xl text-champagne/20 leading-none mb-3">{set.roman}</div>
+              <div className="text-[10px] font-medium tracking-[0.25em] uppercase text-noir mb-2">{set.name}</div>
+              <div className="font-cormorant italic text-base text-muted leading-snug">{set.pieces}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── CATEGORIES ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-8">
