@@ -101,6 +101,7 @@ export interface StoreSettings {
   autoAiPostOnNewProduct: boolean;
   instagramUrl: string;
   facebookUrl: string;
+  logoUrl?: string;
 }
 
 export interface AiGenerationRequest {

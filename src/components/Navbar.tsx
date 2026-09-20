@@ -29,8 +29,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Logo */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('public')}>
             <img
-              src="/logo.png"
-              alt="ZanobShop"
+              src={settings.logoUrl || '/logo.png'}
+              alt={settings.storeName}
               className="h-10 w-auto object-contain"
             />
             <div className="hidden sm:block">
