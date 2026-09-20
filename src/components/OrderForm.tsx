@@ -20,7 +20,9 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, lang, o
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [consent, setConsent] = useState(false);
 
   const unitPrice = product.promoPrice ?? product.price;
   const total = unitPrice * quantity;
@@ -28,6 +30,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, lang, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent || submitting) return;
+    setSubmitting(true);
     const order = addOrder({
       customer: { name, phone, city, address },
       items: [{
@@ -43,6 +47,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, lang, o
     });
     setOrderNumber(order.orderNumber);
     setSubmitted(true);
+    setSubmitting(false);
   };
 
   return (
@@ -159,17 +164,31 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, lang, o
               </div>
             </div>
 
+            {/* Consent — Loi 09-08 */}
+            <label className="flex items-start gap-2.5 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 flex-shrink-0 accent-amber-500 w-4 h-4 cursor-pointer"
+              />
+              <span className="text-[11px] leading-snug text-slate-400 group-hover:text-slate-300 transition">
+                {tr.consentText}
+              </span>
+            </label>
+
             {/* Total + Submit */}
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between pt-1">
               <div>
                 <p className="text-xs text-slate-400">{tr.total}</p>
                 <p className="text-xl font-bold text-amber-400">{total.toFixed(2)} {currency}</p>
               </div>
               <button
                 type="submit"
-                className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition"
+                disabled={!consent || submitting}
+                className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                {tr.confirm}
+                {submitting ? tr.submitting : tr.confirm}
               </button>
             </div>
           </form>

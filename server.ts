@@ -4,13 +4,40 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
+dotenv.config({ path: '.env.local' });
 dotenv.config();
+
+// In-memory rate limiter (per IP)
+const rlStore = new Map<string, { count: number; resetAt: number }>();
+function checkRateLimit(ip: string, limit: number, windowMs: number): boolean {
+  const now = Date.now();
+  const rec = rlStore.get(ip);
+  if (!rec || now > rec.resetAt) {
+    rlStore.set(ip, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+  if (rec.count >= limit) return false;
+  rec.count++;
+  return true;
+}
+// Sanitize string inputs: trim and cap length
+function sanitize(val: unknown, maxLen = 500): string {
+  return typeof val === 'string' ? val.trim().slice(0, maxLen) : '';
+}
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json({ limit: "10mb" }));
+  // Security headers
+  app.use((_req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+  });
+
+  app.use(express.json({ limit: "1mb" }));
 
   // Initialize Gemini AI Client safely
   let aiClient: GoogleGenAI | null = null;
@@ -35,8 +62,20 @@ async function startServer() {
 
   // AI Social Post Generation Endpoint using Gemini 3.6 Flash
   app.post("/api/ai/generate-post", async (req, res) => {
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(ip, 20, 60_000)) {
+      return res.status(429).json({ error: "Trop de requêtes. Veuillez réessayer dans un moment." });
+    }
+
     try {
-      const { productName, categoryName, description, price, promoPrice, style, platform, customNotes } = req.body;
+      const productName  = sanitize(req.body?.productName, 200);
+      const categoryName = sanitize(req.body?.categoryName, 100);
+      const description  = sanitize(req.body?.description, 1000);
+      const price        = sanitize(req.body?.price, 20);
+      const promoPrice   = sanitize(req.body?.promoPrice, 20);
+      const style        = sanitize(req.body?.style, 50);
+      const platform     = sanitize(req.body?.platform, 50);
+      const customNotes  = sanitize(req.body?.customNotes, 500);
 
       if (!productName) {
         return res.status(400).json({ error: "Le nom du produit est requis." });
@@ -103,10 +142,7 @@ Ta réponse DOIT ÊTRE UN OBJET JSON valide avec exactement les clés suivantes 
       return res.json(parsedData);
     } catch (err: any) {
       console.error("Erreur lors de la génération IA:", err);
-      return res.status(500).json({
-        error: "Erreur lors de la génération du contenu IA",
-        details: err.message,
-      });
+      return res.status(500).json({ error: "Erreur lors de la génération du contenu IA." });
     }
   });
 

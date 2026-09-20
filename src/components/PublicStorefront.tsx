@@ -549,6 +549,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
                   : 'Chic and affordable jewelry for every occasion. Fast delivery across Morocco.'}
               </p>
               <p className="text-[10px] text-ivory/25">© 2026 {settings.storeName}. {tr.footerRights}</p>
+              <p className="text-[10px] text-ivory/20 mt-1 leading-snug max-w-xs">{tr.footerPrivacy}</p>
             </div>
 
             <div className="space-y-4">

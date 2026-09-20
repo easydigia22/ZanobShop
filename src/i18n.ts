@@ -53,6 +53,9 @@ export const t = {
     notesPlaceholder: 'Taille, couleur, instructions de livraison...',
     total: 'Total',
     confirm: 'Confirmer',
+    submitting: 'Envoi en cours...',
+    consentText: "J'accepte que ZANOUBSHOP utilise mes données personnelles (nom, téléphone, ville, adresse) uniquement pour traiter ma commande et me contacter. Ces données ne sont pas partagées avec des tiers — conformément à la Loi 09-08.",
+    footerPrivacy: 'Protection des données — Vos informations personnelles sont utilisées uniquement pour le traitement de vos commandes, conformément à la Loi 09-08 (CNDP Maroc).',
   },
   en: {
     heroBadge: 'New Collection — Bijou Chic 2026',
@@ -106,5 +109,8 @@ export const t = {
     notesPlaceholder: 'Size, color, delivery instructions...',
     total: 'Total',
     confirm: 'Confirm',
+    submitting: 'Sending...',
+    consentText: "I agree that ZANOUBSHOP uses my personal data (name, phone, city, address) solely to process my order and contact me. This data is not shared with third parties — in accordance with Law 09-08.",
+    footerPrivacy: 'Data Protection — Your personal data is used only to process your orders, in accordance with Law 09-08 (CNDP Morocco).',
   },
 } as const;
