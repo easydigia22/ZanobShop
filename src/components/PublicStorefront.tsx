@@ -59,9 +59,9 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
         <div className="absolute top-0 right-0 -mt-16 -mr-16 w-80 h-80 bg-champagne/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-80 h-80 bg-rose-poudre/30 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-14 lg:py-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16 items-center">
+            <div className="space-y-6">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-champagne/10 border border-champagne/30 text-champagne text-xs font-medium tracking-wide">
                 <Sparkles className="w-3.5 h-3.5" />
@@ -109,9 +109,9 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
 
             {/* Featured product card */}
             {featuredProducts[0] && (
-              <div className="lg:col-span-5">
-                <div className="relative group bg-white border border-ivory-dark rounded-2xl p-4 shadow-lg hover:border-champagne/40 transition">
-                  <div className="aspect-[4/5] rounded-xl overflow-hidden relative bg-ivory">
+              <div>
+                <div className="relative group bg-white border border-ivory-dark rounded-2xl p-5 shadow-lg hover:border-champagne/40 transition">
+                  <div className="aspect-[3/4] rounded-xl overflow-hidden relative bg-ivory">
                     <img
                       src={featuredProducts[0].mainImage}
                       alt={featuredProducts[0].name}
@@ -153,7 +153,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
       </section>
 
       {/* ── CATEGORIES ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="font-cormorant font-medium text-2xl text-noir">{tr.categoriesTitle}</h2>
@@ -212,7 +212,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
       </section>
 
       {/* ── CATALOGUE ── */}
-      <section id="catalogue" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section id="catalogue" className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-8">
         {/* Search & filter bar */}
         <div className="bg-white border border-ivory-dark p-4 rounded-xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
           <div className="relative w-full md:w-96">
@@ -431,7 +431,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-ivory-dark bg-noir text-ivory py-12 mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-cormorant font-medium text-xl text-ivory mb-2">{settings.storeName}</h3>
             <p className="text-xs leading-relaxed text-ivory/60">{settings.tagline}</p>
