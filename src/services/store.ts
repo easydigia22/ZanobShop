@@ -31,12 +31,12 @@ import {
 } from './supabaseSync';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'smart_boutique_products_v1',
-  CATEGORIES: 'smart_boutique_categories_v1',
-  MOVEMENTS: 'smart_boutique_movements_v1',
-  POSTS: 'smart_boutique_posts_v1',
+  PRODUCTS: 'smart_boutique_products_v2',
+  CATEGORIES: 'smart_boutique_categories_v2',
+  MOVEMENTS: 'smart_boutique_movements_v2',
+  POSTS: 'smart_boutique_posts_v2',
   ACCOUNTS: 'smart_boutique_accounts_v1',
-  SETTINGS: 'smart_boutique_settings_v1',
+  SETTINGS: 'smart_boutique_settings_v2',
   CURRENT_USER: 'smart_boutique_user_v1',
   ORDERS: 'smart_boutique_orders_v1',
 };
