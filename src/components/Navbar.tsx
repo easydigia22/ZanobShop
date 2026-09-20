@@ -4,20 +4,26 @@ import {
   LayoutDashboard,
   MessageCircle,
   RefreshCw,
+  Globe,
 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 import { resetDemoData } from '../services/store';
+import { Lang } from '../i18n';
 
 interface NavbarProps {
   currentView: 'public' | 'admin';
   onNavigate: (view: 'public' | 'admin') => void;
   adminTab: string;
   onSelectAdminTab: (tab: string) => void;
+  lang: Lang;
+  onSetLang: (l: Lang) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   onNavigate,
+  lang,
+  onSetLang,
 }) => {
   const { settings, lowStockProducts, outOfStockProducts } = useStore();
   const totalAlerts = lowStockProducts.length + outOfStockProducts.length;
@@ -80,6 +86,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               <MessageCircle className="w-4 h-4" />
               <span>WhatsApp</span>
             </a>
+
+            {currentView === 'public' && (
+              <div className="flex items-center bg-white border border-ivory-dark rounded-xl p-1 gap-0.5">
+                <Globe className="w-3.5 h-3.5 text-muted mx-1.5" />
+                <button
+                  onClick={() => onSetLang('fr')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                    lang === 'fr'
+                      ? 'bg-champagne text-noir shadow-sm'
+                      : 'text-muted hover:text-noir'
+                  }`}
+                >
+                  FR
+                </button>
+                <button
+                  onClick={() => onSetLang('en')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                    lang === 'en'
+                      ? 'bg-champagne text-noir shadow-sm'
+                      : 'text-muted hover:text-noir'
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
+            )}
 
             <button
               onClick={() => {

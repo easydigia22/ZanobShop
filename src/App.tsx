@@ -14,10 +14,12 @@ import { CalendarView } from './components/CalendarView';
 import { SettingsView } from './components/SettingsView';
 import { OrdersView } from './components/OrdersView';
 import { Product } from './types';
+import { Lang } from './i18n';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'public' | 'admin'>('public');
   const [adminTab, setAdminTab] = useState<string>('dashboard');
+  const [lang, setLang] = useState<Lang>('fr');
   const [adminAuthenticated, setAdminAuthenticated] = useState<boolean>(
     isAdminAuthenticated()
   );
@@ -54,11 +56,13 @@ export default function App() {
         onNavigate={setCurrentView}
         adminTab={adminTab}
         onSelectAdminTab={setAdminTab}
+        lang={lang}
+        onSetLang={setLang}
       />
 
       {/* Main Content Area */}
       {currentView === 'public' ? (
-        <PublicStorefront />
+        <PublicStorefront lang={lang} />
       ) : !adminAuthenticated ? (
         <AdminLogin onSuccess={() => setAdminAuthenticated(true)} />
       ) : (

@@ -17,8 +17,14 @@ import {
 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 import { Product } from '../types';
+import { Lang, t } from '../i18n';
 
-export const PublicStorefront: React.FC = () => {
+interface PublicStorefrontProps {
+  lang: Lang;
+}
+
+export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang }) => {
+  const tr = t[lang];
   const { products, categories, settings } = useStore();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -59,18 +65,18 @@ export const PublicStorefront: React.FC = () => {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-champagne/10 border border-champagne/30 text-champagne text-xs font-medium tracking-wide">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Nouvelle Collection — Bijou Chic 2026</span>
+                <span>{tr.heroBadge}</span>
               </div>
 
               {/* Headline */}
               <h1 className="font-cormorant font-light text-noir leading-[0.9] tracking-tight" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)' }}>
-                L'Élégance<br />
-                Accessible &<br />
-                <span className="text-champagne italic">Moderne</span>
+                {tr.heroHeadline1}<br />
+                {tr.heroHeadline2}<br />
+                <span className="text-champagne italic">{tr.heroHeadline3}</span>
               </h1>
 
               <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed font-light">
-                {settings.tagline}. Bijoux chics portés du bureau au soir — qualité réelle, prix accessibles.
+                {settings.tagline}{tr.heroTaglineSuffix}
               </p>
 
               {/* CTA Buttons */}
@@ -80,7 +86,7 @@ export const PublicStorefront: React.FC = () => {
                   className="px-6 py-3.5 rounded-xl bg-noir hover:bg-noir-light text-ivory font-medium text-sm transition-all shadow-md flex items-center gap-2"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Explorer le catalogue</span>
+                  <span>{tr.exploreCta}</span>
                 </a>
               </div>
 
@@ -88,15 +94,15 @@ export const PublicStorefront: React.FC = () => {
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-ivory-dark text-muted text-xs">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-champagne flex-shrink-0" />
-                  <span>Livraison 24/48h</span>
+                  <span>{tr.trust1}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                  <span>Paiement livraison</span>
+                  <span>{tr.trust2}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-champagne flex-shrink-0" />
-                  <span>Qualité garantie</span>
+                  <span>{tr.trust3}</span>
                 </div>
               </div>
             </div>
@@ -113,7 +119,7 @@ export const PublicStorefront: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4 bg-champagne text-noir text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                      Coup de Cœur
+                      {tr.featured}
                     </div>
                   </div>
                   <div className="mt-4 space-y-2 px-2">
@@ -135,7 +141,7 @@ export const PublicStorefront: React.FC = () => {
                         onClick={() => openProductDetail(featuredProducts[0])}
                         className="px-4 py-2 bg-ivory-dark hover:bg-rose-poudre text-noir text-xs font-medium rounded-xl transition border border-ivory-dark"
                       >
-                        Voir les détails
+                        {tr.viewDetails}
                       </button>
                     </div>
                   </div>
@@ -150,14 +156,14 @@ export const PublicStorefront: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="font-cormorant font-medium text-2xl text-noir">Nos Catégories</h2>
-            <p className="text-muted text-sm mt-0.5">Parcourez nos collections sélectionnées</p>
+            <h2 className="font-cormorant font-medium text-2xl text-noir">{tr.categoriesTitle}</h2>
+            <p className="text-muted text-sm mt-0.5">{tr.categoriesSubtitle}</p>
           </div>
           <button
             onClick={() => setSelectedCategory('ALL')}
             className="text-xs font-medium text-champagne hover:text-champagne-light flex items-center gap-1"
           >
-            Voir tout ({activeProducts.length}) <ChevronRight className="w-3.5 h-3.5" />
+            {tr.viewAll} ({activeProducts.length}) <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
@@ -173,8 +179,8 @@ export const PublicStorefront: React.FC = () => {
             <div className="w-12 h-12 rounded-xl bg-ivory-dark flex items-center justify-center mb-2">
               <ShoppingBag className="w-6 h-6 text-champagne" />
             </div>
-            <span className="font-medium text-sm text-noir">Tous les produits</span>
-            <span className="text-xs text-muted mt-1">{activeProducts.length} articles</span>
+            <span className="font-medium text-sm text-noir">{tr.allProducts}</span>
+            <span className="text-xs text-muted mt-1">{tr.items(activeProducts.length)}</span>
           </div>
 
           {categories.map((cat) => {
@@ -198,7 +204,7 @@ export const PublicStorefront: React.FC = () => {
                   />
                 </div>
                 <span className="font-medium text-sm text-noir line-clamp-1">{cat.name}</span>
-                <span className="text-xs text-muted mt-1">{cat.productCount || 0} articles</span>
+                <span className="text-xs text-muted mt-1">{tr.items(cat.productCount || 0)}</span>
               </div>
             );
           })}
@@ -215,7 +221,7 @@ export const PublicStorefront: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Rechercher par nom, SKU ou mot-clé..."
+              placeholder={tr.searchPlaceholder}
               className="w-full bg-ivory border border-ivory-dark rounded-xl pl-10 pr-4 py-2 text-sm text-noir focus:outline-none focus:border-champagne placeholder:text-muted"
             />
             {searchQuery && (
@@ -227,7 +233,7 @@ export const PublicStorefront: React.FC = () => {
 
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
             <span className="text-xs text-muted flex items-center gap-1 mr-2 whitespace-nowrap">
-              <Filter className="w-3.5 h-3.5" /> Filtres :
+              <Filter className="w-3.5 h-3.5" /> {tr.filtersLabel}
             </span>
             <button
               onClick={() => setSelectedCategory('ALL')}
@@ -237,7 +243,7 @@ export const PublicStorefront: React.FC = () => {
                   : 'bg-ivory-dark text-muted hover:text-noir'
               }`}
             >
-              Tous
+              {tr.filterAll}
             </button>
             {categories.map((c) => (
               <button
@@ -259,8 +265,8 @@ export const PublicStorefront: React.FC = () => {
         {filteredProducts.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl border border-ivory-dark">
             <ShoppingBag className="w-12 h-12 text-ivory-dark mx-auto mb-3" />
-            <h3 className="text-lg font-cormorant font-medium text-noir mb-1">Aucun produit trouvé</h3>
-            <p className="text-muted text-sm">Essayez de modifier votre recherche ou le filtre.</p>
+            <h3 className="text-lg font-cormorant font-medium text-noir mb-1">{tr.emptyTitle}</h3>
+            <p className="text-muted text-sm">{tr.emptySubtitle}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -283,19 +289,19 @@ export const PublicStorefront: React.FC = () => {
                     />
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                       {p.promoPrice && (
-                        <span className="bg-rose-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md shadow">PROMO</span>
+                        <span className="bg-rose-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md shadow">{tr.badgePromo}</span>
                       )}
                       {p.isNewArrival && (
-                        <span className="bg-champagne text-noir text-[10px] font-semibold px-2 py-0.5 rounded-md shadow">NOUVEAU</span>
+                        <span className="bg-champagne text-noir text-[10px] font-semibold px-2 py-0.5 rounded-md shadow">{tr.badgeNew}</span>
                       )}
                       {isLowStock && (
                         <span className="bg-amber-100 text-amber-700 text-[10px] font-semibold px-2 py-0.5 rounded-md shadow border border-amber-200">
-                          Plus que {p.stockQuantity} !
+                          {tr.badgeLowStock(p.stockQuantity)}
                         </span>
                       )}
                       {isOutOfStock && (
                         <span className="bg-ivory-dark text-muted text-[10px] font-semibold px-2 py-0.5 rounded-md shadow border border-ivory-dark">
-                          ÉPUISÉ
+                          {tr.badgeOutOfStock}
                         </span>
                       )}
                     </div>
@@ -336,7 +342,7 @@ export const PublicStorefront: React.FC = () => {
                           }`}
                         >
                           <ShoppingBag className="w-3.5 h-3.5" />
-                          <span>Order</span>
+                          <span>{tr.orderBtn}</span>
                         </button>
                       </div>
                     </div>
@@ -386,15 +392,15 @@ export const PublicStorefront: React.FC = () => {
                   <div className="mt-3">
                     {selectedProduct.stockQuantity === 0 ? (
                       <span className="inline-flex items-center gap-1 text-xs text-rose-500 font-medium">
-                        <AlertTriangle className="w-3.5 h-3.5" /> Épuisé temporairement
+                        <AlertTriangle className="w-3.5 h-3.5" /> {tr.stockOut}
                       </span>
                     ) : selectedProduct.stockQuantity <= selectedProduct.lowStockThreshold ? (
                       <span className="inline-flex items-center gap-1 text-xs text-amber-600 font-medium">
-                        <Clock className="w-3.5 h-3.5" /> Stock très limité ({selectedProduct.stockQuantity} restants)
+                        <Clock className="w-3.5 h-3.5" /> {tr.stockLow(selectedProduct.stockQuantity)}
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> En Stock ({selectedProduct.stockQuantity} disponibles)
+                        <CheckCircle2 className="w-3.5 h-3.5" /> {tr.stockIn(selectedProduct.stockQuantity)}
                       </span>
                     )}
                   </div>
@@ -411,10 +417,10 @@ export const PublicStorefront: React.FC = () => {
                     className="w-full py-3.5 rounded-xl bg-noir hover:bg-noir-light disabled:bg-ivory-dark disabled:text-muted text-ivory font-semibold text-sm transition flex items-center justify-center gap-2"
                   >
                     <ShoppingBag className="w-5 h-5" />
-                    <span>Commander</span>
+                    <span>{tr.orderBtn}</span>
                   </button>
                   <p className="text-center text-xs text-muted">
-                    Livraison à domicile 24–48h • Paiement à la réception
+                    {tr.deliveryNote}
                   </p>
                 </div>
               </div>
@@ -429,11 +435,11 @@ export const PublicStorefront: React.FC = () => {
           <div>
             <h3 className="font-cormorant font-medium text-xl text-ivory mb-2">{settings.storeName}</h3>
             <p className="text-xs leading-relaxed text-ivory/60">{settings.tagline}</p>
-            <p className="text-xs text-ivory/30 mt-4">© 2026 {settings.storeName}. Tous droits réservés.</p>
+            <p className="text-xs text-ivory/30 mt-4">© 2026 {settings.storeName}. {tr.footerRights}</p>
           </div>
 
           <div>
-            <h4 className="font-medium text-ivory text-sm mb-3 tracking-wide">Boutique Showroom</h4>
+            <h4 className="font-medium text-ivory text-sm mb-3 tracking-wide">{tr.footerShowroom}</h4>
             <ul className="space-y-2 text-xs text-ivory/60">
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-champagne flex-shrink-0" />
@@ -451,9 +457,9 @@ export const PublicStorefront: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-medium text-ivory text-sm mb-3 tracking-wide">Commandes & Service Client</h4>
+            <h4 className="font-medium text-ivory text-sm mb-3 tracking-wide">{tr.footerOrders}</h4>
             <p className="text-xs leading-relaxed text-ivory/60 mb-3">
-              Notre équipe répond instantanément sur WhatsApp du lundi au samedi de 9h à 20h.
+              {tr.footerTeam}
             </p>
             <div className="flex gap-3">
               <a
@@ -481,6 +487,7 @@ export const PublicStorefront: React.FC = () => {
         <OrderForm
           product={orderProduct}
           currency={settings.currency}
+          lang={lang}
           onClose={() => setOrderProduct(null)}
         />
       )}

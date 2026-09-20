@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { X, ShoppingBag, CheckCircle2 } from 'lucide-react';
 import { addOrder } from '../services/store';
 import { Product } from '../types';
+import { Lang, t } from '../i18n';
 
 interface OrderFormProps {
   product: Product;
   currency: string;
+  lang: Lang;
   onClose: () => void;
 }
 
-export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose }) => {
+export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, lang, onClose }) => {
+  const tr = t[lang];
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
@@ -49,7 +52,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-amber-400" />
-            <span className="font-bold text-white">Passer une commande</span>
+            <span className="font-bold text-white">{tr.orderFormTitle}</span>
           </div>
           <button onClick={onClose} className="p-1 hover:bg-slate-800 rounded-lg transition">
             <X className="w-4 h-4 text-slate-400" />
@@ -59,17 +62,15 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose
         {submitted ? (
           <div className="p-8 text-center space-y-4">
             <CheckCircle2 className="w-14 h-14 text-emerald-400 mx-auto" />
-            <h3 className="text-xl font-bold text-white">Commande recue !</h3>
+            <h3 className="text-xl font-bold text-white">{tr.orderSuccess}</h3>
             <p className="text-slate-400 text-sm">
-              Votre commande{' '}
-              <span className="text-amber-400 font-mono font-bold">{orderNumber}</span>{' '}
-              a bien ete enregistree. Nous vous contacterons sous peu.
+              {tr.orderSuccessMsg(orderNumber)}
             </p>
             <button
               onClick={onClose}
               className="mt-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition"
             >
-              Fermer
+              {tr.close}
             </button>
           </div>
         ) : (
@@ -107,17 +108,17 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose
             {/* Customer Fields */}
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
-                <label className="block text-xs text-slate-400 mb-1">Nom complet *</label>
+                <label className="block text-xs text-slate-400 mb-1">{tr.fullName}</label>
                 <input
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Votre nom"
+                  placeholder={tr.namePlaceholder}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Telephone *</label>
+                <label className="block text-xs text-slate-400 mb-1">{tr.phone}</label>
                 <input
                   required
                   value={phone}
@@ -127,31 +128,31 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose
                 />
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Ville *</label>
+                <label className="block text-xs text-slate-400 mb-1">{tr.city}</label>
                 <input
                   required
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  placeholder="Casablanca"
+                  placeholder={tr.cityPlaceholder}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div className="col-span-2">
-                <label className="block text-xs text-slate-400 mb-1">Adresse *</label>
+                <label className="block text-xs text-slate-400 mb-1">{tr.address}</label>
                 <input
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Rue, quartier..."
+                  placeholder={tr.addressPlaceholder}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div className="col-span-2">
-                <label className="block text-xs text-slate-400 mb-1">Notes (optionnel)</label>
+                <label className="block text-xs text-slate-400 mb-1">{tr.notes}</label>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Taille, couleur, instructions de livraison..."
+                  placeholder={tr.notesPlaceholder}
                   rows={2}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 resize-none"
                 />
@@ -161,14 +162,14 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, currency, onClose
             {/* Total + Submit */}
             <div className="flex items-center justify-between pt-2">
               <div>
-                <p className="text-xs text-slate-400">Total</p>
+                <p className="text-xs text-slate-400">{tr.total}</p>
                 <p className="text-xl font-bold text-amber-400">{total.toFixed(2)} {currency}</p>
               </div>
               <button
                 type="submit"
                 className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition"
               >
-                Confirmer
+                {tr.confirm}
               </button>
             </div>
           </form>
