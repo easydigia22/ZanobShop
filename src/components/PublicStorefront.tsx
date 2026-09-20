@@ -3,7 +3,6 @@ import { OrderForm } from './OrderForm';
 import {
   Search,
   Filter,
-  MessageCircle,
   Sparkles,
   ShoppingBag,
   CheckCircle2,
@@ -15,7 +14,6 @@ import {
   ChevronRight,
   X,
   AlertTriangle,
-  Send,
 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 import { Product } from '../types';
@@ -25,8 +23,6 @@ export const PublicStorefront: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [customWhatsappMessage, setCustomWhatsappMessage] = useState<string>('');
-  const [showWhatsappModal, setShowWhatsappModal] = useState<boolean>(false);
   const [orderProduct, setOrderProduct] = useState<Product | null>(null);
 
   const activeProducts = useMemo(() => products.filter((p) => p.isActive), [products]);
@@ -46,20 +42,6 @@ export const PublicStorefront: React.FC = () => {
 
   const openProductDetail = (product: Product) => {
     setSelectedProduct(product);
-    const defaultMsg = `${settings.whatsappMessageTemplate}\n\n- Produit : ${product.name}\n- Réf (SKU) : ${product.sku}\n- Prix : ${product.promoPrice || product.price} ${settings.currency}`;
-    setCustomWhatsappMessage(defaultMsg);
-  };
-
-  const handleOpenWhatsapp = (product: Product) => {
-    const msg = `${settings.whatsappMessageTemplate}\n\n*${product.name}*\nRef: ${product.sku}\nPrix: ${product.promoPrice || product.price} ${settings.currency}`;
-    const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
-  };
-
-  const handleSendCustomWhatsapp = () => {
-    const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(customWhatsappMessage)}`;
-    window.open(url, '_blank');
-    setShowWhatsappModal(false);
   };
 
   return (
@@ -100,13 +82,6 @@ export const PublicStorefront: React.FC = () => {
                   <ShoppingBag className="w-4 h-4" />
                   <span>Explorer le catalogue</span>
                 </a>
-                <button
-                  onClick={() => setShowWhatsappModal(true)}
-                  className="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all flex items-center gap-2 shadow-md"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Commander par WhatsApp</span>
-                </button>
               </div>
 
               {/* Trust badges */}
@@ -363,18 +338,6 @@ export const PublicStorefront: React.FC = () => {
                           <ShoppingBag className="w-3.5 h-3.5" />
                           <span>Order</span>
                         </button>
-                        <button
-                          onClick={() => handleOpenWhatsapp(p)}
-                          disabled={isOutOfStock}
-                          className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 transition ${
-                            isOutOfStock
-                              ? 'bg-ivory-dark text-muted cursor-not-allowed'
-                              : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                          }`}
-                        >
-                          <MessageCircle className="w-3.5 h-3.5" />
-                          <span>WA</span>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -443,12 +406,12 @@ export const PublicStorefront: React.FC = () => {
 
                 <div className="space-y-3 pt-4 border-t border-ivory-dark">
                   <button
-                    onClick={() => handleOpenWhatsapp(selectedProduct)}
+                    onClick={() => { setOrderProduct(selectedProduct); setSelectedProduct(null); }}
                     disabled={selectedProduct.stockQuantity === 0}
-                    className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-ivory-dark disabled:text-muted text-white font-semibold text-sm transition flex items-center justify-center gap-2"
+                    className="w-full py-3.5 rounded-xl bg-noir hover:bg-noir-light disabled:bg-ivory-dark disabled:text-muted text-ivory font-semibold text-sm transition flex items-center justify-center gap-2"
                   >
-                    <MessageCircle className="w-5 h-5" />
-                    <span>Commander via WhatsApp</span>
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Commander</span>
                   </button>
                   <p className="text-center text-xs text-muted">
                     Livraison à domicile 24–48h • Paiement à la réception
@@ -456,42 +419,6 @@ export const PublicStorefront: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── WHATSAPP MODAL ── */}
-      {showWhatsappModal && (
-        <div className="fixed inset-0 z-50 bg-noir/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-ivory-dark rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-ivory-dark pb-3">
-              <div className="flex items-center gap-2 text-emerald-600 font-medium">
-                <MessageCircle className="w-5 h-5" />
-                <span>Contact Direct WhatsApp</span>
-              </div>
-              <button onClick={() => setShowWhatsappModal(false)} className="text-muted hover:text-noir">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <p className="text-xs text-muted">
-              Tapez votre message ou utilisez ce modèle pour contacter notre équipe :
-            </p>
-
-            <textarea
-              value={customWhatsappMessage || 'Bonjour ZANOUBSHOP, je souhaite avoir des renseignements.'}
-              onChange={(e) => setCustomWhatsappMessage(e.target.value)}
-              rows={4}
-              className="w-full bg-ivory border border-ivory-dark rounded-xl p-3 text-xs text-noir focus:outline-none focus:border-champagne"
-            />
-
-            <button
-              onClick={handleSendCustomWhatsapp}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-2"
-            >
-              <Send className="w-4 h-4" />
-              <span>Ouvrir dans WhatsApp</span>
-            </button>
           </div>
         </div>
       )}
