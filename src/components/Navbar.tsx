@@ -3,9 +3,7 @@ import {
   Store,
   LayoutDashboard,
   MessageCircle,
-  ShieldAlert,
   RefreshCw,
-  Search,
 } from 'lucide-react';
 import { useStore } from '../hooks/useStore';
 import { resetDemoData } from '../services/store';
@@ -20,38 +18,35 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   onNavigate,
-  adminTab,
-  onSelectAdminTab,
 }) => {
-  const { user, settings, lowStockProducts, outOfStockProducts } = useStore();
+  const { settings, lowStockProducts, outOfStockProducts } = useStore();
   const totalAlerts = lowStockProducts.length + outOfStockProducts.length;
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white shadow-lg">
+    <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-ivory-dark shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand */}
+          {/* Logo */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('public')}>
             <img
               src="/logo.png"
               alt="ZanobShop"
-              className="h-10 w-auto object-contain drop-shadow-md"
+              className="h-10 w-auto object-contain"
             />
             <div className="hidden sm:block">
-              <p className="text-xs text-slate-400">{settings.tagline}</p>
+              <p className="text-xs text-muted tracking-wide">{settings.tagline}</p>
             </div>
           </div>
 
-          {/* View Switcher Tabs & Role Manager */}
+          {/* Navigation */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* View Switcher */}
-            <div className="bg-slate-800 p-1 rounded-xl flex items-center border border-slate-700/60">
+            <div className="bg-white p-1 rounded-xl flex items-center border border-ivory-dark">
               <button
                 onClick={() => onNavigate('public')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   currentView === 'public'
-                    ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'bg-champagne text-noir font-semibold shadow-sm'
+                    : 'text-muted hover:text-noir'
                 }`}
               >
                 <Store className="w-4 h-4" />
@@ -62,25 +57,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => onNavigate('admin')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative ${
                   currentView === 'admin'
-                    ? 'bg-slate-700 text-white font-semibold border border-slate-600'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'bg-noir text-ivory font-semibold'
+                    : 'text-muted hover:text-noir'
                 }`}
               >
-                <LayoutDashboard className="w-4 h-4 text-amber-400" />
+                <LayoutDashboard className="w-4 h-4" />
                 <span>Dashboard Admin</span>
                 {totalAlerts > 0 && (
-                  <span className="ml-1 bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full animate-pulse">
+                  <span className="ml-1 bg-rose-500 text-white text-[10px] font-bold px-1.5 rounded-full animate-pulse">
                     {totalAlerts}
                   </span>
                 )}
               </button>
             </div>
 
-            {/* Direct WhatsApp Contact button */}
             <a
-              href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(
-                'Bonjour ZANOUBSHOP !'
-              )}`}
+              href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Bonjour ZANOUBSHOP !')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs rounded-xl shadow-sm transition"
@@ -89,7 +81,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>WhatsApp</span>
             </a>
 
-            {/* Reset Demo Data Button */}
             <button
               onClick={() => {
                 if (confirm('Voulez-vous réinitialiser les données de démonstration ?')) {
@@ -97,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }
               }}
               title="Réinitialiser la démo"
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"
+              className="p-2 text-muted hover:text-noir hover:bg-ivory-dark rounded-lg transition"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
