@@ -102,6 +102,7 @@ export interface StoreSettings {
   instagramUrl: string;
   facebookUrl: string;
   logoUrl?: string;
+  heroImageUrl?: string;
 }
 
 export interface AiGenerationRequest {
