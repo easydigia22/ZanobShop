@@ -377,7 +377,9 @@ export function toggleAccountConnection(accountId: string): SocialAccount | null
 
 // 7. SETTINGS
 export function getSettings(): StoreSettings {
-  return loadFromStorage<StoreSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+  // Merge with INITIAL_SETTINGS so newly-added fields always have defaults
+  const stored = loadFromStorage<Partial<StoreSettings>>(STORAGE_KEYS.SETTINGS, {});
+  return { ...INITIAL_SETTINGS, ...stored };
 }
 
 export function updateSettings(newSettings: Partial<StoreSettings>): StoreSettings {

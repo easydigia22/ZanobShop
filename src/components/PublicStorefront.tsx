@@ -48,12 +48,17 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
     });
   };
 
-  const heroImage = settings.heroImageUrl || '';
+  const HERO_FALLBACK = 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1400&auto=format&fit=crop&q=85';
+  const heroImage = settings.heroImageUrl || HERO_FALLBACK;
+
+  // Strip French articles and return the meaningful noun/phrase
+  const displayName = (name: string) =>
+    name.replace(/^(le |la |les |l'|l')/i, '').replace(/^\w/, (c) => c.toUpperCase());
 
   const navLinks = [
     { label: lang === 'fr' ? 'Accueil' : 'Home', href: '#', catId: '' },
     { label: lang === 'fr' ? 'Boutique' : 'Shop', href: '#catalogue', catId: '' },
-    ...categories.slice(0, 4).map((c) => ({ label: c.name.split(' ')[0], href: '#catalogue', catId: c.id })),
+    ...categories.slice(0, 4).map((c) => ({ label: displayName(c.name), href: '#catalogue', catId: c.id })),
     { label: 'Contact', href: '#contact', catId: '' },
   ];
 
@@ -218,45 +223,41 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
       </header>
 
       {/* ══════════════════ HERO ══════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: 'var(--zanob-bg)', minHeight: 520 }}>
+      <section className="relative overflow-hidden" style={{ background: 'var(--zanob-bg)', minHeight: 560 }}>
 
-        {/* Full-bleed woman photo — right side */}
-        {heroImage && (
-          <>
-            <div className="absolute top-0 right-0 h-full hidden lg:block" style={{ width: '62%' }}>
-              <img
-                src={heroImage}
-                alt="ZANOBSHOP"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center"
-              />
-              {/* Left fade to match background */}
-              <div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, transparent 28%)' }}
-              />
-            </div>
+        {/* Full-bleed woman photo — right side (visible dès md) */}
+        <div className="absolute top-0 right-0 h-full hidden md:block" style={{ width: '62%' }}>
+          <img
+            src={heroImage}
+            alt="ZANOBSHOP"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-top"
+          />
+          {/* Left fade */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, rgba(243,238,234,0.6) 18%, transparent 38%)' }}
+          />
+        </div>
 
-            {/* Script text — floating over photo */}
-            <div className="absolute top-14 right-6 z-10 text-right hidden xl:block pointer-events-none">
-              <p className="font-cormorant italic leading-tight" style={{ fontSize: '1.6rem', color: 'rgba(178,138,105,0.55)' }}>
-                {lang === 'fr' ? 'La beauté' : 'The beauty'}<br />
-                {lang === 'fr' ? 'au naturel' : 'au naturel'}
-              </p>
-              <div className="mt-3 space-y-0.5">
-                <p className="text-[9px] tracking-[0.3em] font-semibold uppercase" style={{ color: 'rgba(43,34,29,0.35)' }}>ZANOBSHOP.MA</p>
-                <p className="text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(43,34,29,0.2)' }}>Maroc</p>
-                <div className="flex justify-end mt-1">
-                  <Diamond style={{ width: 11, height: 11, color: 'rgba(178,138,105,0.4)' }} />
-                </div>
-                <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(43,34,29,0.12)' }}>
-                  <p className="text-[9px] tracking-[0.25em] font-semibold uppercase" style={{ color: 'rgba(43,34,29,0.3)' }}>ZANOBSHOP.MA</p>
-                  <p className="text-[8px] tracking-[0.2em] uppercase" style={{ color: 'rgba(43,34,29,0.2)' }}>MORE THAN JEWELRY</p>
-                </div>
-              </div>
+        {/* Script text — floating over photo */}
+        <div className="absolute top-12 right-5 z-10 text-right hidden xl:block pointer-events-none">
+          <p className="font-cormorant italic leading-tight" style={{ fontSize: '1.65rem', color: 'rgba(178,138,105,0.6)' }}>
+            {lang === 'fr' ? 'La beauté' : 'The beauty'}<br />
+            {lang === 'fr' ? 'au naturel' : 'au naturel'}
+          </p>
+          <div className="mt-3 space-y-0.5">
+            <p className="text-[9px] tracking-[0.3em] font-semibold uppercase" style={{ color: 'rgba(43,34,29,0.4)' }}>ZANOBSHOP.MA</p>
+            <p className="text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(43,34,29,0.25)' }}>Maroc</p>
+            <div className="flex justify-end mt-1">
+              <Diamond style={{ width: 11, height: 11, color: 'rgba(178,138,105,0.45)' }} />
             </div>
-          </>
-        )}
+            <div className="mt-4 pt-3" style={{ borderTop: '1px solid rgba(43,34,29,0.12)' }}>
+              <p className="text-[9px] tracking-[0.25em] font-semibold uppercase" style={{ color: 'rgba(43,34,29,0.35)' }}>ZANOBSHOP.MA</p>
+              <p className="text-[8px] tracking-[0.2em] uppercase mt-0.5" style={{ color: 'rgba(43,34,29,0.22)' }}>MORE THAN JEWELRY</p>
+            </div>
+          </div>
+        </div>
 
         {/* Text content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -310,34 +311,35 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
                   key={cat.id}
                   onClick={() => { setSelectedCategory(cat.id); document.getElementById('catalogue')?.scrollIntoView({ behavior: 'smooth' }); }}
                   className="flex items-stretch group text-left transition-all duration-200 hover:z-10"
-                  style={{ background: 'var(--zanob-bg)' }}
+                  style={{ background: '#FFFFFF' }}
                 >
-                  {/* Left image */}
-                  <div className="overflow-hidden flex-shrink-0" style={{ width: '42%', aspectRatio: '1/1' }}>
+                  {/* Left image — fixed height, fills left portion */}
+                  <div className="overflow-hidden flex-shrink-0" style={{ width: '45%', minHeight: 140 }}>
                     {cat.image ? (
                       <img
                         src={cat.image}
                         alt={cat.name}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        style={{ minHeight: 140 }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--zanob-surface)' }}>
+                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--zanob-surface)', minHeight: 140 }}>
                         <Diamond style={{ width: 28, height: 28, color: 'var(--zanob-gold)', opacity: 0.4 }} />
                       </div>
                     )}
                   </div>
 
-                  {/* Right text */}
-                  <div className="flex-1 flex flex-col justify-center px-5 py-6">
+                  {/* Right text — fond ivoire chaud */}
+                  <div className="flex-1 flex flex-col justify-center px-5 py-6" style={{ background: 'var(--zanob-bg)' }}>
                     <p className="text-[9px] font-semibold tracking-[0.22em] uppercase mb-1" style={{ color: 'var(--zanob-gold)' }}>
                       {catSubtitle(cat.name)}
                     </p>
                     <h3 className="font-cormorant font-semibold text-xl leading-tight mb-3" style={{ color: 'var(--zanob-text)' }}>
-                      {cat.name.split(' ')[0]}
+                      {displayName(cat.name)}
                     </h3>
                     <span
-                      className="inline-flex items-center gap-1 text-[12px] font-medium w-fit transition-colors group-hover:gap-2"
+                      className="inline-flex items-center gap-1 text-[12px] font-medium w-fit transition-colors group-hover:gap-1.5"
                       style={{ color: 'var(--zanob-text)', borderBottom: '1px solid var(--zanob-nude)', paddingBottom: 1 }}
                     >
                       {lang === 'fr' ? 'Découvrir' : 'Discover'}
