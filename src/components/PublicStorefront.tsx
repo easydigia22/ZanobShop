@@ -48,7 +48,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
     });
   };
 
-  const HERO_FALLBACK = 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1400&auto=format&fit=crop&q=85';
+  const HERO_FALLBACK = 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=1400&auto=format&fit=crop&q=85';
   const heroImage = settings.heroImageUrl || HERO_FALLBACK;
 
   // Strip French articles and return the meaningful noun/phrase
@@ -230,13 +230,24 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
           <img
             src={heroImage}
             alt="ZANOBSHOP"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-center"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = HERO_FALLBACK; }}
           />
           {/* Left fade */}
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, rgba(243,238,234,0.6) 18%, transparent 38%)' }}
+            style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, rgba(243,238,234,0.5) 15%, transparent 35%)' }}
+          />
+        </div>
+
+        {/* Mobile hero background image */}
+        <div className="absolute inset-0 md:hidden" style={{ opacity: 0.12 }}>
+          <img
+            src={heroImage}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = HERO_FALLBACK; }}
           />
         </div>
 
