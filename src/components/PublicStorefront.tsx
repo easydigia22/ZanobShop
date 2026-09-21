@@ -252,11 +252,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
               </p>
 
               <div className="flex items-center gap-3 flex-wrap pt-1">
-                <a
-                  href="#catalogue"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: '#B28A69' }}
-                >
+                <a href="#catalogue" className="btn-primary">
                   {lang === 'fr' ? 'Découvrir la collection' : 'Discover the collection'}
                   <ChevronRight className="w-4 h-4" />
                 </a>

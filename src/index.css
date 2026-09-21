@@ -1,15 +1,82 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap");
 
+/* ── ZANOBSHOP Official Color System ─────────────────────────── */
+:root {
+  --zanob-bg:        #F3EEEA;   /* fond principal */
+  --zanob-surface:   #D7C7B6;   /* surfaces secondaires, bordures */
+  --zanob-nude:      #CBB49F;   /* accents doux, hover surfaces */
+
+  --zanob-gold:      #B28A69;   /* couleur signature */
+  --zanob-gold-dark: #9F7154;   /* hover gold */
+
+  --zanob-text:      #2B221D;   /* texte principal */
+
+  /* Dérivés utilitaires (non officiels, construits sur la palette) */
+  --zanob-text-muted: #7D6855;  /* texte secondaire */
+  --zanob-white:      #FFFFFF;
+}
+
+/* ── Tailwind v4 theme tokens (alias vers variables zanob) ───── */
 @theme {
-  --color-ivory: #F3EEEA;
-  --color-ivory-dark: #E8E1DA;
-  --color-noir: #2B221D;
-  --color-noir-light: #3D3028;
-  --color-champagne: #B28A69;
-  --color-champagne-light: #C9A882;
-  --color-rose-poudre: #E6D3CF;
-  --color-muted: #7A6E68;
+  --color-ivory:            var(--zanob-bg);
+  --color-ivory-dark:       var(--zanob-surface);
+  --color-nude:             var(--zanob-nude);
+  --color-noir:             var(--zanob-text);
+  --color-noir-light:       #3D3028;
+  --color-champagne:        var(--zanob-gold);
+  --color-champagne-dark:   var(--zanob-gold-dark);
+  --color-champagne-light:  #C9A882;
+  --color-muted:            var(--zanob-text-muted);
+  --color-rose-poudre:      #E6D3CF;
+
   --font-cormorant: "Cormorant Garamond", Georgia, serif;
   --font-jost: "Jost", system-ui, sans-serif;
+}
+
+/* ── Boutons officiels ───────────────────────────────────────── */
+.btn-primary {
+  background: var(--zanob-gold);
+  color: var(--zanob-white);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--zanob-gold-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -4px rgba(159, 113, 84, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--zanob-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid var(--zanob-surface);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--zanob-gold);
+  background: var(--zanob-bg);
+  transform: translateY(-1px);
 }
