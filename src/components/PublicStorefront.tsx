@@ -48,7 +48,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
     });
   };
 
-  const HERO_FALLBACK = 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=1400&auto=format&fit=crop&q=85';
+  const HERO_FALLBACK = 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1400&auto=format&fit=crop&q=85';
   const heroImage = settings.heroImageUrl || HERO_FALLBACK;
 
   // Strip French articles and return the meaningful noun/phrase
