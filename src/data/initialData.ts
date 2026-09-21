@@ -526,5 +526,5 @@ export const INITIAL_SETTINGS: StoreSettings = {
   autoAiPostOnNewProduct: false,
   instagramUrl: 'https://instagram.com/zanoubshop_ma',
   facebookUrl: 'https://facebook.com/zanoubshopmaroc',
-  heroImageUrl: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1400&auto=format&fit=crop&q=85',
+  heroImageUrl: '/hero-woman.jpg',
 };
