@@ -48,7 +48,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
     });
   };
 
-  const HERO_FALLBACK = '/hero-woman.jpg';
+  const HERO_FALLBACK = '/hero-woman.png';
   const heroImage = settings.heroImageUrl || HERO_FALLBACK;
 
   // Strip French articles and return the meaningful noun/phrase
@@ -230,7 +230,8 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
           <img
             src={heroImage}
             alt="ZANOBSHOP"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: '72% center' }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = HERO_FALLBACK; }}
           />
           {/* Left fade */}
