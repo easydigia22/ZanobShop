@@ -50,19 +50,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-ivory text-noir flex flex-col font-jost antialiased">
       <PwaInstallBanner />
-      {/* Shared Navbar */}
-      <Navbar
-        currentView={currentView}
-        onNavigate={setCurrentView}
-        adminTab={adminTab}
-        onSelectAdminTab={setAdminTab}
-        lang={lang}
-        onSetLang={setLang}
-      />
+
+      {/* Navbar only in admin view */}
+      {currentView === 'admin' && (
+        <Navbar
+          currentView={currentView}
+          onNavigate={setCurrentView}
+          adminTab={adminTab}
+          onSelectAdminTab={setAdminTab}
+          lang={lang}
+          onSetLang={setLang}
+        />
+      )}
 
       {/* Main Content Area */}
       {currentView === 'public' ? (
-        <PublicStorefront lang={lang} />
+        <PublicStorefront lang={lang} onNavigate={setCurrentView} onSetLang={setLang} />
       ) : !adminAuthenticated ? (
         <AdminLogin onSuccess={() => setAdminAuthenticated(true)} />
       ) : (

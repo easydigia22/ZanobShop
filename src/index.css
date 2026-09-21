@@ -2,14 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap");
 
 @theme {
-  --color-ivory: #F7F3EC;
-  --color-ivory-dark: #EAE4D9;
-  --color-noir: #1C1B19;
-  --color-noir-light: #2E2D2A;
-  --color-champagne: #C8A96B;
-  --color-champagne-light: #D9BF8A;
+  --color-ivory: #F3EEEA;
+  --color-ivory-dark: #E8E1DA;
+  --color-noir: #2B221D;
+  --color-noir-light: #3D3028;
+  --color-champagne: #B28A69;
+  --color-champagne-light: #C9A882;
   --color-rose-poudre: #E6D3CF;
-  --color-muted: #7A7168;
+  --color-muted: #7A6E68;
   --font-cormorant: "Cormorant Garamond", Georgia, serif;
   --font-jost: "Jost", system-ui, sans-serif;
 }
