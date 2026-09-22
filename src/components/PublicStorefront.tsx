@@ -281,7 +281,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
 
             <h1 className="font-cormorant font-semibold leading-[1.1] mb-4" style={{ fontSize: 'clamp(2rem, 3.2vw, 3.8rem)', color: 'var(--zanob-text)' }}>
               {lang === 'fr' ? "L'élégance qui" : 'The elegance that'}<br />
-              {lang === 'fr' ? 'vous ressemble' : 'resembles you'}
+              <span className="whitespace-nowrap">{lang === 'fr' ? 'vous ressemble' : 'resembles you'}</span>
             </h1>
 
             {/* Gold underline accent */}
