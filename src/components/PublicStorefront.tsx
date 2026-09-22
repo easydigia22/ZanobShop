@@ -315,47 +315,45 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
 
       {/* ══════════════════ CATEGORIES ══════════════════ */}
       {categories.length > 0 && (
-        <section id="categories">
+        <section id="categories" className="py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: 'var(--zanob-surface)' }}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {categories.slice(0, 4).map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => { setSelectedCategory(cat.id); document.getElementById('catalogue')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className="flex items-stretch group text-left transition-all duration-200 hover:z-10"
-                  style={{ background: '#FFFFFF' }}
+                  className="flex flex-col group text-left transition-all duration-200 hover:opacity-90"
                 >
-                  {/* Left image — fixed height, fills left portion */}
-                  <div className="overflow-hidden flex-shrink-0" style={{ width: '45%', minHeight: 140 }}>
+                  {/* Image — pleine largeur, ratio carré */}
+                  <div className="overflow-hidden w-full rounded-sm" style={{ aspectRatio: '1/1', background: 'var(--zanob-surface)' }}>
                     {cat.image ? (
                       <img
                         src={cat.image}
                         alt={cat.name}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        style={{ minHeight: 140 }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--zanob-surface)', minHeight: 140 }}>
-                        <Diamond style={{ width: 28, height: 28, color: 'var(--zanob-gold)', opacity: 0.4 }} />
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Diamond style={{ width: 32, height: 32, color: 'var(--zanob-gold)', opacity: 0.35 }} />
                       </div>
                     )}
                   </div>
 
-                  {/* Right text — fond ivoire chaud */}
-                  <div className="flex-1 flex flex-col justify-center px-5 py-6" style={{ background: 'var(--zanob-bg)' }}>
-                    <p className="text-[9px] font-semibold tracking-[0.22em] uppercase mb-1" style={{ color: 'var(--zanob-gold)' }}>
-                      {catSubtitle(cat.name)}
-                    </p>
-                    <h3 className="font-cormorant font-semibold text-xl leading-tight mb-3" style={{ color: 'var(--zanob-text)' }}>
+                  {/* Texte — sous l'image */}
+                  <div className="flex flex-col pt-3 pb-1">
+                    <h3 className="font-cormorant font-semibold text-xl leading-tight" style={{ color: 'var(--zanob-text)' }}>
                       {displayName(cat.name)}
                     </h3>
+                    <p className="text-[9px] font-semibold tracking-[0.2em] uppercase mt-0.5 mb-2" style={{ color: 'var(--zanob-gold)' }}>
+                      {catSubtitle(cat.name)}
+                    </p>
                     <span
-                      className="inline-flex items-center gap-1 text-[12px] font-medium w-fit transition-colors group-hover:gap-1.5"
+                      className="inline-flex items-center gap-1 text-[11px] font-medium w-fit transition-all duration-200 group-hover:gap-1.5"
                       style={{ color: 'var(--zanob-text)', borderBottom: '1px solid var(--zanob-nude)', paddingBottom: 1 }}
                     >
                       {lang === 'fr' ? 'Découvrir' : 'Discover'}
-                      <ChevronRight style={{ width: 13, height: 13 }} />
+                      <ChevronRight style={{ width: 12, height: 12 }} />
                     </span>
                   </div>
                 </button>
