@@ -279,7 +279,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
               {lang === 'fr' ? "Plus qu'un bijou, une histoire" : 'More than jewelry, a story'}
             </p>
 
-            <h1 className="font-cormorant font-semibold leading-[1.05] mb-4" style={{ fontSize: 'clamp(2.8rem, 5.5vw, 4.8rem)', color: 'var(--zanob-text)' }}>
+            <h1 className="font-cormorant font-semibold leading-[1.1] mb-4 whitespace-nowrap" style={{ fontSize: 'clamp(1.75rem, 3.8vw, 4.8rem)', color: 'var(--zanob-text)' }}>
               {lang === 'fr' ? "L'élégance qui" : 'The elegance that'}<br />
               {lang === 'fr' ? 'vous ressemble' : 'resembles you'}
             </h1>
