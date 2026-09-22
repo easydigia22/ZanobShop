@@ -226,18 +226,18 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
       <section className="relative overflow-hidden" style={{ background: 'var(--zanob-bg)', minHeight: 560 }}>
 
         {/* Full-bleed woman photo — right side (visible dès md) */}
-        <div className="absolute top-0 right-0 h-full hidden md:block" style={{ width: '62%' }}>
+        <div className="absolute top-0 right-0 h-full hidden md:block" style={{ width: '65%' }}>
           <img
             src={heroImage}
             alt="ZANOBSHOP"
             className="w-full h-full object-cover"
-            style={{ objectPosition: 'center top' }}
+            style={{ objectPosition: '30% 15%' }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = HERO_FALLBACK; }}
           />
           {/* Left fade */}
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, rgba(243,238,234,0.5) 15%, transparent 35%)' }}
+            style={{ background: 'linear-gradient(to right, var(--zanob-bg) 0%, rgba(243,238,234,0.4) 12%, transparent 28%)' }}
           />
         </div>
 
@@ -273,13 +273,13 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
 
         {/* Text content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-          <div style={{ maxWidth: 480 }}>
+          <div style={{ maxWidth: 360 }}>
 
             <p className="text-[11px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--zanob-gold)' }}>
               {lang === 'fr' ? "Plus qu'un bijou, une histoire" : 'More than jewelry, a story'}
             </p>
 
-            <h1 className="font-cormorant font-semibold leading-[1.1] mb-4 whitespace-nowrap" style={{ fontSize: 'clamp(1.75rem, 3.8vw, 4.8rem)', color: 'var(--zanob-text)' }}>
+            <h1 className="font-cormorant font-semibold leading-[1.1] mb-4" style={{ fontSize: 'clamp(2rem, 3.2vw, 3.8rem)', color: 'var(--zanob-text)' }}>
               {lang === 'fr' ? "L'élégance qui" : 'The elegance that'}<br />
               {lang === 'fr' ? 'vous ressemble' : 'resembles you'}
             </h1>
