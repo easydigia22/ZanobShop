@@ -31,7 +31,7 @@ import {
 } from './supabaseSync';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'smart_boutique_products_v3',
+  PRODUCTS: 'smart_boutique_products_v4',
   CATEGORIES: 'smart_boutique_categories_v4',
   MOVEMENTS: 'smart_boutique_movements_v2',
   POSTS: 'smart_boutique_posts_v2',

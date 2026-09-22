@@ -233,7 +233,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 195,
     stockQuantity: 20,
     lowStockThreshold: 5,
-    mainImage: 'https://images.unsplash.com/photo-1524592094714-0f0654e359b1?w=800&auto=format&fit=crop&q=80',
+    mainImage: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&auto=format&fit=crop&q=80',
     galleryImages: [],
     isActive: true,
     isFeatured: false,
