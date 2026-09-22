@@ -18,37 +18,37 @@ export const INITIAL_USERS: User[] = [
 ];
 
 export const INITIAL_CATEGORIES: Category[] = [
-  // ── 5 PIÈCES — Collection 9H–17H ──────────────────────────────────────────
+  // ── 4 CATÉGORIES PRINCIPALES ───────────────────────────────────────────────
   {
     id: 'cat_c1',
-    name: 'Le collier essentiel',
-    slug: 'collier-essentiel',
+    name: 'Colliers',
+    slug: 'colliers',
     description: 'Colliers fins et élégants pour un port quotidien du bureau au soir.',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&auto=format&fit=crop&q=80',
     productCount: 2,
   },
   {
     id: 'cat_c2',
-    name: 'Les créoles du quotidien',
-    slug: 'creoles-quotidien',
-    description: 'Créoles et boucles légères, signature d\'une femme moderne et accessible.',
-    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&auto=format&fit=crop&q=80',
+    name: 'Boucles d\'oreilles',
+    slug: 'boucles-oreilles',
+    description: 'Créoles, puces et pendantes — pour chaque style et chaque occasion.',
+    image: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=600&auto=format&fit=crop&q=80',
     productCount: 2,
   },
   {
     id: 'cat_c3',
-    name: 'La bague signature',
-    slug: 'bague-signature',
-    description: 'Bagues minimalistes et bagues statement pour affirmer son style.',
-    image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&auto=format&fit=crop&q=80',
+    name: 'Bagues',
+    slug: 'bagues',
+    description: 'Bagues minimalistes et statement pour affirmer son style au quotidien.',
+    image: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&auto=format&fit=crop&q=80',
     productCount: 2,
   },
   {
     id: 'cat_c4',
-    name: 'Le bracelet minimaliste',
-    slug: 'bracelet-minimaliste',
+    name: 'Bracelets',
+    slug: 'bracelets',
     description: 'Bracelets fins dorés et argentés, à porter seuls ou en superposition.',
-    image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600&auto=format&fit=crop&q=80',
     productCount: 2,
   },
   {

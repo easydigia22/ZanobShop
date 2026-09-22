@@ -53,7 +53,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
 
   // Strip French articles and return the meaningful noun/phrase
   const displayName = (name: string) =>
-    name.replace(/^(le |la |les |l'|l')/i, '').replace(/^\w/, (c) => c.toUpperCase());
+    name.replace(/^(le |la |les |l'|l'’)/i, '').replace(/^\w/, (c) => c.toUpperCase());
 
   const navLinks = [
     { label: lang === 'fr' ? 'Accueil' : 'Home', href: '#', catId: '' },
