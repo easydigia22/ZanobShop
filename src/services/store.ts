@@ -32,7 +32,7 @@ import {
 
 const STORAGE_KEYS = {
   PRODUCTS: 'smart_boutique_products_v2',
-  CATEGORIES: 'smart_boutique_categories_v3',
+  CATEGORIES: 'smart_boutique_categories_v4',
   MOVEMENTS: 'smart_boutique_movements_v2',
   POSTS: 'smart_boutique_posts_v2',
   ACCOUNTS: 'smart_boutique_accounts_v1',

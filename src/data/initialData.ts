@@ -48,7 +48,7 @@ export const INITIAL_CATEGORIES: Category[] = [
     name: 'Bracelets',
     slug: 'bracelets',
     description: 'Bracelets fins dorés et argentés, à porter seuls ou en superposition.',
-    image: 'https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&auto=format&fit=crop&q=80',
     productCount: 2,
   },
   {
