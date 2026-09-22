@@ -429,7 +429,9 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
           >
             {tr.filterAll}
           </button>
-          {categories.map((c) => (
+          {categories
+            .filter(c => activeProducts.some(p => p.categoryId === c.id) && !c.name.toLowerCase().includes('ensemble') && !c.name.toLowerCase().includes('touche'))
+            .map((c) => (
             <button
               key={c.id}
               onClick={() => setSelectedCategory(c.id)}
@@ -438,7 +440,7 @@ export const PublicStorefront: React.FC<PublicStorefrontProps> = ({ lang, onNavi
                 ? { background: 'var(--zanob-gold)', color: '#fff', borderColor: 'var(--zanob-gold)' }
                 : { background: '#fff', color: 'var(--zanob-text-muted)', borderColor: 'var(--zanob-surface)' } as React.CSSProperties}
             >
-              {c.name.split(' ')[0]}
+              {displayName(c.name)}
             </button>
           ))}
         </div>
